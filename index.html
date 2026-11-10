@@ -324,10 +324,9 @@ footer{text-align:center;padding-block:40px 8px;font-family:var(--f-mono);font-s
       </div>
     </div>
     <div class="social">
-      <a class="soc" style="--c:var(--pink)" href="https://www.pinterest.com/sofiaghost/" target="_blank" rel="noopener"><b>Pinterest</b><span>@sofiaghost</span><small>Tableros de apuntes por materia</small></a>
+      <a class="soc" style="--c:var(--pink)" href="https://co.pinterest.com/Sofiaghost03/" target="_blank" rel="noopener"><b>Pinterest</b><span>@sofiaghost</span><small>Tableros de apuntes por materia</small></a>
       <a class="soc" style="--c:var(--lilac-soft)" href="https://github.com/sofiaghost" target="_blank" rel="noopener"><b>GitHub</b><span>@sofiaghost</span><small>Código de mis proyectos</small></a>
-      <a class="soc" style="--c:var(--butter)" href="https://www.instagram.com/sofiaghost/" target="_blank" rel="noopener"><b>Instagram</b><span>@sofiaghost</span><small>Resúmenes en carrusel</small></a>
-      <a class="soc" style="--c:var(--mint)" href="https://www.tiktok.com/@sofiaghost" target="_blank" rel="noopener"><b>TikTok</b><span>@sofiaghost</span><small>Temas explicados en 1 minuto</small></a>
+      
     </div>
   </section>
 
@@ -398,8 +397,7 @@ const OTROS = [
 ];
 const PROYECTOS = [
   {t:"Sofiaghost Apuntes", d:"Este sitio: un PDF por materia de la carrera, ordenado por semestre, con buscador.", s:["HTML","CSS","JavaScript"], c:"var(--pink)", l:"https://github.com/sofiaghost/sofiaghost.github.io"},
-  {t:"Calculadora de matrices", d:"Suma, multiplica e invierte matrices mostrando cada paso del proceso.", s:["Python"], c:"var(--butter)"},
-  {t:"Gestor de tareas", d:"Aplicación de consola con arquitectura MVC y persistencia en archivos.", s:["Java","MVC"], c:"var(--mint)"}
+
 ];
 
 let filtro = "todas";
@@ -473,20 +471,24 @@ document.getElementById("otros-grid").innerHTML = OTROS.map(o=>{
 }).join("");
 
 
-// contenedor donde se mostrarán los proyectos.
-document.getElementById("projects").innerHTML = PROYECTOS.map(p => {
-  const esEnlace = Boolean(p.l);
-  const etiqueta = esEnlace ? "a" : "article";
-  const enlace = esEnlace
-    ? `href="${esc(p.l)}" target="_blank" rel="noopener noreferrer"`
-    : "";
-  return `<${etiqueta} class="proj" style="--c:${p.c}" ${enlace}>
-    <span class="ex">Proyecto de ejemplo</span>
-    <h3>${esc(p.t)}</h3>
-    <p>${esc(p.d)}</p>
-    <div class="stack">${p.s.map(s => `<span>${esc(s)}</span>`).join("")}</div>
-  </${etiqueta}>`;
+
+const contenedorProyectos = document.getElementById("projects");
+contenedorProyectos.innerHTML = PROYECTOS.map(p => {
+  const tieneEnlace = Boolean(p.l);
+  const etiqueta = tieneEnlace ? "a" : "article";
+  const atributos = tieneEnlace ? `href="${esc(p.l)}"` : "";
+  return `
+    <${etiqueta} class="proj" style="--c:${p.c}" ${atributos}>
+      <span class="ex">Proyecto de ejemplo</span>
+      <h3>${esc(p.t)}</h3>
+      <p>${esc(p.d)}</p>
+      <div class="stack">
+        ${p.s.map(s => `<span>${esc(s)}</span>`).join("")}
+      </div>
+    </${etiqueta}>
+  `;
 }).join("");
+
 
 
 renderChips(); render();
