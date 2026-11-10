@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Apuntes de Ingeniería de Sistemas en español, un PDF por materia. Por sofiaghost.">
+<title>Sofiaghost Apuntes</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: una hoja de cuaderno cuadriculado con margen rosado; tarjetas pegadas con cinta washi */
+:root{
+  --paper:#FBFAFF; --grid:#E4DFF5; --margin:#F4A9C6;
+  --ink:#2E2A45; --ink-soft:#6B6588;
+  --lilac:#9B7FE0; --lilac-soft:#EDE6FF;
+  --mint:#BDEBDA; --pink:#FAD3E2; --butter:#FFEDA6; --sky:#CFE3FF; --peach:#FFD9C2;
+  --card:#FFFFFF; --line:#D9D2EE;
+  --f-hand:"Caveat","Segoe Print","Comic Sans MS",cursive;
+  --f-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1C1A2B; --grid:#2A2740; --margin:#7A4560;
+  --ink:#ECE8FF; --ink-soft:#ABA4CC;
+  --lilac:#B9A2FF; --lilac-soft:#2F2950;
+  --mint:#2F5E50; --pink:#5E3249; --butter:#5E5426; --sky:#2C4468; --peach:#5E3F2E;
+  --card:#25223A; --line:#3A3656; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#1C1A2B; --grid:#2A2740; --margin:#7A4560;
+  --ink:#ECE8FF; --ink-soft:#ABA4CC;
+  --lilac:#B9A2FF; --lilac-soft:#2F2950;
+  --mint:#2F5E50; --pink:#5E3249; --butter:#5E5426; --sky:#2C4468; --peach:#5E3F2E;
+  --card:#25223A; --line:#3A3656; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.6;
+}
+.page{position:relative; max-width:1080px; margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 48px}
+.page::before{content:"";position:absolute;top:0;bottom:0;left:max(6px,calc(env(safe-area-inset-left,0px) - 10px));width:2px;background:var(--margin);opacity:.7}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--lilac);outline-offset:3px;border-radius:6px}
+
+/* nav */
+nav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:20px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-mono);font-weight:700;font-size:15px}
+.brand svg{width:34px;height:34px}
+.links{display:flex;gap:4px;flex-wrap:wrap}
+.links a{text-decoration:none;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px}
+.links a:hover{background:var(--lilac-soft)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;padding-block:32px 56px}
+.hero > *{min-width:0}
+.hello{font-family:var(--f-mono);font-size:14px;color:var(--ink-soft);margin:0 0 8px}
+.hello b{color:var(--lilac)}
+h1{font-family:var(--f-hand);font-weight:700;font-size:clamp(48px,8vw,80px);line-height:.95;margin:0 0 16px;text-wrap:balance}
+.hl{background:linear-gradient(transparent 55%,var(--butter) 55% 90%,transparent 90%);padding:0 4px}
+.lead{font-size:18px;max-width:34em;margin:0 0 24px;color:var(--ink)}
+.meta{font-family:var(--f-mono);font-size:13px;color:var(--ink-soft);margin:0 0 24px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-body);font-weight:800;font-size:15px;text-decoration:none;padding:12px 20px;border-radius:12px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn.primary{background:var(--lilac);color:#fff;border-color:var(--ink)}
+:root[data-theme="dark"] .btn.primary{color:#1C1A2B}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#1C1A2B}}
+
+.sticky{position:relative;justify-self:center;width:min(300px,100%);aspect-ratio:1/1;background:var(--pink);border-radius:4px;transform:rotate(3deg);box-shadow:0 14px 30px -14px rgba(46,42,69,.45);display:grid;place-items:center;padding:24px}
+.sticky::before,.tape{content:"";position:absolute;top:-14px;left:50%;width:110px;height:28px;transform:translateX(-50%) rotate(-4deg);background:repeating-linear-gradient(45deg,var(--mint) 0 8px,color-mix(in srgb,var(--mint) 70%,var(--card)) 8px 16px);opacity:.9}
+.sticky svg{width:78%;height:auto;animation:float 4s ease-in-out infinite}
+.sticky .cap{position:absolute;bottom:14px;right:18px;font-family:var(--f-hand);font-size:24px;transform:rotate(-3deg)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media (prefers-reduced-motion:reduce){.sticky svg{animation:none}.btn{transition:none}}
+
+/* sections */
+section{padding-block:40px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+h2{font-family:var(--f-hand);font-weight:700;font-size:clamp(38px,5vw,52px);line-height:1;margin:0;text-wrap:balance}
+h2 .u{background:linear-gradient(transparent 60%,var(--mint) 60% 92%,transparent 92%);padding:0 4px}
+.sub{color:var(--ink-soft);margin:6px 0 0;max-width:60ch}
+.note{font-family:var(--f-hand);font-size:21px;background:var(--butter);padding:6px 14px;transform:rotate(-1.5deg);border-radius:3px;max-width:340px;line-height:1.2}
+
+/* filters */
+.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.search{flex:1 1 240px;display:flex;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:0 12px}
+.search span{font-family:var(--f-mono);color:var(--lilac);font-weight:700}
+.search input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;padding:11px 0;outline:none}
+.search:focus-within{border-color:var(--lilac)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:700 14px var(--f-body);padding:7px 14px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--c,var(--lilac-soft))}
+.chip .n{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft);margin-left:4px}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px 22px}
+.card{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:26px 20px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .tape{top:-12px;width:84px;height:22px;background:var(--c);opacity:.95}
+.card:nth-child(3n+2) .tape{transform:translateX(-50%) rotate(3deg)}
+.tag{align-self:flex-start;font:700 12px var(--f-mono);text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:6px;background:var(--c)}
+.card h3{font-size:19px;line-height:1.3;margin:0;font-weight:800;text-wrap:balance}
+.card p{margin:0;color:var(--ink-soft);font-size:15px}
+.card .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:12px;border-top:1.5px dashed var(--line);flex-wrap:wrap}
+.card .info{font:500 12px var(--f-mono);color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.dl{font:800 13px var(--f-body);text-decoration:none;padding:7px 12px;border-radius:9px;border:2px solid var(--ink);background:var(--paper);color:var(--ink)}
+.dl:hover{background:var(--lilac-soft)}
+.dl[aria-disabled="true"]{border-style:dashed;border-color:var(--line);color:var(--ink-soft);cursor:not-allowed;background:transparent}
+.sem{margin-top:36px}
+.sem-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+.sem-head h3{font-family:var(--f-hand);font-weight:700;font-size:34px;line-height:1;margin:0;white-space:nowrap}
+.sem-head .rule{flex:1;height:0;border-top:2px dashed var(--line)}
+.sem-head .cnt{font:500 12px var(--f-mono);color:var(--ink-soft);white-space:nowrap}
+.card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.code{font:700 12px var(--f-mono);color:var(--ink-soft)}
+.temas{font-size:14px;color:var(--ink-soft);margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px}
+.temas a{font-weight:700;color:var(--ink)}
+.temas .soon{font-style:italic}
+.alt{font:700 11px var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--lilac)}
+.empty{grid-column:1/-1;text-align:center;font-family:var(--f-hand);font-size:26px;color:var(--ink-soft);padding:30px}
+
+/* about */
+.about{display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:start}
+.about > *{min-width:0}
+.term{background:#2E2A45;color:#ECE8FF;border-radius:12px;padding:18px 20px;font:500 14px/1.8 var(--f-mono);box-shadow:5px 5px 0 var(--lilac);overflow-x:auto}
+.term .dots{display:flex;gap:6px;margin-bottom:10px}
+.term .dots i{width:11px;height:11px;border-radius:50%;background:#F4A9C6}
+.term .dots i:nth-child(2){background:#FFE58A}.term .dots i:nth-child(3){background:#8FD9C0}
+.term .p{color:#B9A2FF}.term .k{color:#8FD9C0}
+.about p{margin:0 0 14px;max-width:60ch}
+.likes{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.likes span{font:600 14px var(--f-body);padding:5px 12px;border-radius:999px;background:var(--sky)}
+
+/* projects */
+.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+.proj{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:4px 4px 0 var(--c)}
+.proj h3{margin:0;font-size:18px;font-weight:800}
+.proj p{margin:0;color:var(--ink-soft);font-size:15px}
+.stack{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.stack span{font:500 12px var(--f-mono);padding:2px 8px;border:1.5px solid var(--line);border-radius:6px}
+.ex{font:700 11px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
+
+/* social */
+.social{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.soc{display:flex;flex-direction:column;gap:4px;text-decoration:none;background:var(--c);border-radius:12px;padding:18px;border:2px solid transparent;transition:transform .15s}
+.soc:hover{border-color:var(--ink);transform:rotate(-1.5deg)}
+.soc b{font-size:17px;font-weight:800}
+.soc span{font:500 13px var(--f-mono);color:var(--ink-soft)}
+.soc small{font-size:14px}
+
+footer{text-align:center;padding-block:40px 8px;font-family:var(--f-mono);font-size:13px;color:var(--ink-soft)}
+
+@media (max-width:760px){
+  .hero,.about{grid-template-columns:1fr}
+  .hero{gap:32px;padding-block:16px 40px}
+  .sticky{width:min(240px,80%)}
+  .social{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{scroll-behavior:smooth}</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ghost" viewBox="0 0 120 130">
+      <path d="M60 6C32 6 14 26 14 54v62c0 4 4 6 7 3l9-8 10 9c2 2 5 2 7 0l13-10 13 10c2 2 5 2 7 0l10-9 9 8c3 3 7 1 7-3V54C106 26 88 6 60 6z" fill="#FFFFFF" stroke="#2E2A45" stroke-width="5" stroke-linejoin="round"/>
+      <text x="36" y="64" font-family="JetBrains Mono, monospace" font-weight="700" font-size="26" fill="#2E2A45">&gt;_</text>
+      <text x="70" y="64" font-family="JetBrains Mono, monospace" font-weight="700" font-size="26" fill="#2E2A45">&gt;_</text>
+      <ellipse cx="34" cy="80" rx="7" ry="4" fill="#F4A9C6"/>
+      <ellipse cx="86" cy="80" rx="7" ry="4" fill="#F4A9C6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="page">
+  <nav>
+    <a class="brand" href="#inicio"><svg aria-hidden="true"><use href="#ghost"/></svg>sofiaghost</a>
+    <div class="links">
+      <a href="#apuntes">Apuntes</a>
+      <a href="#otros">Otros</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#redes">Redes</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="inicio">
+    <div>
+      <p class="hello"><b>&gt;_</b> echo "hola, mundo"</p>
+      <h1>Apuntes de sistemas, <span class="hl">en limpio</span> y en español</h1>
+      <p class="lead">Soy Laura Sofia, estudiante de Ingeniería de Sistemas en la Universidad de los Andes. Paso mis apuntes a limpio y los comparto para que estudiar programación, matemáticas y arquitectura sea un poco menos solitario.</p>
+      <p class="meta">Laura Sofia Vallejo · Estudiante de Ingeniería de Sistemas · Universidad de los Andes · @sofiaghost</p>
+      <div class="btns">
+        <a class="btn primary" href="#apuntes">Ver apuntes</a>
+        <a class="btn" href="#sobre-mi">Conóceme</a>
+      </div>
+    </div>
+    <div class="sticky" aria-hidden="true">
+      <svg viewBox="0 0 120 130"><use href="#ghost"/></svg>
+      <span class="cap">boo! a estudiar</span>
+    </div>
+  </header>
+
+  <section id="apuntes" aria-labelledby="t-apuntes">
+    <div class="sec-head">
+      <div>
+        <h2 id="t-apuntes"><span class="u">Apuntes por materia</span></h2>
+        <p class="sub">Un PDF por cada materia de Ingeniería de Sistemas y Computación, ordenadas por semestre. Después irán llegando los temas de cada materia en infografías.</p>
+      </div>
+      <p class="note"><span id="progreso">0 de 0</span> PDFs listos. ¡Vamos subiendo!</p>
+    </div>
+    <div class="tools">
+      <label class="search" for="q"><span>&gt;_</span>
+        <input id="q" type="search" placeholder="Buscar materia o código: cálculo, ISIS-1225…" autocomplete="off">
+      </label>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filtrar por área" style="margin-bottom:12px"></div>
+    <div id="sems"></div>
+  </section>
+
+  <section id="otros" aria-labelledby="t-otros">
+    <div class="sec-head">
+      <div>
+        <h2 id="t-otros"><span class="u">Otros apuntes</span></h2>
+        <p class="sub">Lo que aprendo fuera de la carrera: nube, inteligencia artificial y otras herramientas que me sirven para programar.</p>
+      </div>
+    </div>
+    <div class="grid" id="otros-grid"></div>
+  </section>
+
+  <section id="sobre-mi" aria-labelledby="t-sobre">
+    <div class="sec-head"><h2 id="t-sobre"><span class="u">Sobre mí</span></h2></div>
+    <div class="about">
+      <div class="term" role="img" aria-label="Terminal con datos sobre Sofia">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div><span class="p">sofia@ghost:~$</span> whoami</div>
+        <div>Laura Sofia Vallejo</div>
+        <div><span class="p">sofia@ghost:~$</span> cat carrera.txt</div>
+        <div>Ingeniería de Sistemas · Universidad de los Andes</div>
+        <div><span class="p">sofia@ghost:~$</span> ls intereses/</div>
+        <div><span class="k">programación/  arquitectura/  web/  apuntes/</span></div>
+        <div><span class="p">sofia@ghost:~$</span> <span class="k">_</span></div>
+      </div>
+      <div>
+        <p>Hola, soy Sofia, aunque en internet me encuentras como <b>sofiaghost</b>. Estudio Ingeniería de Sistemas en la Universidad de los Andes y desde el primer semestre tengo la costumbre de reescribir mis apuntes hasta que de verdad los entiendo.</p>
+        <p>Este espacio nació para compartirlos: explicaciones en español, con ejemplos y esquemas, pensadas para quien está aprendiendo lo mismo que yo. Si un tema te sirvió o quieres que haga uno nuevo, búscame en mis redes.</p>
+        <div class="likes"><span>Java y Python</span><span>Diagramas UML</span><span>Bases de datos</span><span>Diseño web</span><span>Café</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proyectos" aria-labelledby="t-proy">
+    <div class="sec-head">
+      <div>
+        <h2 id="t-proy"><span class="u">Proyectos</span></h2>
+        <p class="sub">Lo que voy construyendo mientras aprendo. Los encuentras en mi GitHub.</p>
+      </div>
+    </div>
+    <div class="projects" id="projects"></div>
+  </section>
+
+  <section id="redes" aria-labelledby="t-redes">
+    <div class="sec-head">
+      <div>
+        <h2 id="t-redes"><span class="u">Redes</span></h2>
+        <p class="sub">Comparto los apuntes también en formato visual. Sígueme donde prefieras.</p>
+      </div>
+    </div>
+    <div class="social">
+      <a class="soc" style="--c:var(--pink)" href="https://www.pinterest.com/sofiaghost/" target="_blank" rel="noopener"><b>Pinterest</b><span>@sofiaghost</span><small>Tableros de apuntes por materia</small></a>
+      <a class="soc" style="--c:var(--lilac-soft)" href="https://github.com/sofiaghost" target="_blank" rel="noopener"><b>GitHub</b><span>@sofiaghost</span><small>Código de mis proyectos</small></a>
+      <a class="soc" style="--c:var(--butter)" href="https://www.instagram.com/sofiaghost/" target="_blank" rel="noopener"><b>Instagram</b><span>@sofiaghost</span><small>Resúmenes en carrusel</small></a>
+      <a class="soc" style="--c:var(--mint)" href="https://www.tiktok.com/@sofiaghost" target="_blank" rel="noopener"><b>TikTok</b><span>@sofiaghost</span><small>Temas explicados en 1 minuto</small></a>
+    </div>
+  </section>
+
+  <footer>Hecho con café y <b>&gt;_</b> por sofiaghost · 2026</footer>
+</div>
+
+<script>
+/* =========================================================
+   CÓMO EDITAR TUS APUNTES
+   1. Busca la materia en la lista MATERIAS_CARRERA.
+   2. En pdf:"" pega la ruta o el enlace del PDF, por ejemplo:
+        pdf:"pdfs/precalculo.pdf"         (archivo dentro de tu repositorio)
+        pdf:"https://drive.google.com/…"  (enlace público de Drive)
+   3. Para agregar un tema o infografía, añádelo en temas:
+        temas:[{t:"Funciones", url:"pdfs/precalculo-funciones.pdf"}]
+   ========================================================= */
+const AREAS = {
+  mate:{n:"Matemáticas", c:"var(--butter)"},
+  prog:{n:"Programación", c:"var(--lilac-soft)"},
+  bdr:{n:"Bases de datos y redes", c:"var(--sky)"},
+  web:{n:"Desarrollo web y móvil", c:"var(--mint)"},
+  arq:{n:"Arquitectura de software", c:"var(--peach)"},
+  ti:{n:"TI y organizaciones", c:"var(--pink)"}
+};
+const MATERIAS_CARRERA = [
+  // Semestre 1
+  {sem:1, a:"mate", cod:"MATE-1201", t:"Precálculo", cr:3, pdf:"", temas:[]},
+  {sem:1, a:"prog", cod:"ISIS-1221", t:"Introducción a la Programación", cr:3, pdf:"", temas:[]},
+  {sem:1, a:"arq",  cod:"ISIS-1001", t:"Introducción a la Ingeniería de Sistemas", cr:3, pdf:"", temas:[]},
+  // Semestre 2
+  {sem:2, a:"mate", cod:"MATE-1203", t:"Cálculo Diferencial", cr:3, pdf:"", temas:[]},
+  {sem:2, a:"mate", cod:"ISIS-1107", t:"Fundamentos Matemáticos para Computación", cr:3, pdf:"", temas:[]},
+  {sem:2, a:"prog", cod:"ISIS-1225", t:"Estructuras de Datos y Algoritmos", cr:3, pdf:"", temas:[]},
+  // Semestre 3
+  {sem:3, a:"mate", cod:"MATE-1214", t:"Cálculo Integral y Ecuaciones Diferenciales", cr:3, pdf:"", temas:[]},
+  {sem:3, a:"mate", cod:"MATE-1105", t:"Álgebra Lineal 1", cr:3, pdf:"", temas:[]},
+  {sem:3, a:"prog", cod:"ISIS-1106", t:"Lenguajes y Máquinas", cr:3, pdf:"", temas:[]},
+  {sem:3, a:"prog", cod:"ISIS-1226", t:"Diseño y Programación Orientada a Objetos", cr:3, pdf:"", temas:[]},
+  {sem:3, a:"bdr",  cod:"ISIS-1304", t:"Fundamentos de Infraestructura Tecnológica", cr:3, pdf:"", temas:[]},
+  // Semestre 4
+  {sem:4, a:"mate", cod:"MATE-1207", t:"Cálculo Vectorial", cr:3, pdf:"", temas:[]},
+  {sem:4, a:"prog", cod:"ISIS-1105", t:"Diseño y Análisis de Algoritmos", cr:3, pdf:"", temas:[]},
+  {sem:4, a:"bdr",  cod:"ISIS-2304", t:"Sistemas Transaccionales", cr:3, pdf:"", temas:[]},
+  {sem:4, a:"arq",  cod:"ISIS-2603", t:"Desarrollo de Software en Equipo", cr:3, pdf:"", temas:[]},
+  {sem:4, a:"ti",   cod:"ISIS-1404", t:"TI en las Organizaciones", cr:3, pdf:"", temas:[]},
+  // Semestre 5
+  {sem:5, a:"ti",   cod:"IIND-2401", t:"Análisis de Decisión e Inversión", cr:3, pdf:"", temas:[]},
+  {sem:5, a:"mate", cod:"IIND-2106", t:"Probabilidad y Estadística", cr:3, pdf:"", temas:[]},
+  {sem:5, a:"arq",  cod:"ISIS-2007", t:"Diseño de Productos e Innovación en TI", cr:3, pdf:"", temas:[]},
+  {sem:5, a:"arq",  cod:"ISIS-2503", t:"Arquitectura y Diseño de Software", cr:3, pdf:"", temas:[]},
+  {sem:5, a:"ti",   cod:"ISIS-2403", t:"Arquitectura Empresarial", cr:3, pdf:"", temas:[]},
+  {sem:5, a:"bdr",  cod:"ISIS-2203", t:"Infraestructura Computacional", cr:3, pdf:"", temas:[]},
+  // Semestre 6
+  {sem:6, a:"mate", cod:"ISIS-3302", t:"Modelado, Simulación y Optimización", cr:3, pdf:"", temas:[]},
+  {sem:6, a:"ti",   cod:"ISIS-3301", t:"Inteligencia de Negocios", cr:3, pdf:"", temas:[]},
+  {sem:6, a:"ti",   cod:"ISIS-3425", t:"Sistemas Empresariales", cr:3, pdf:"", temas:[], alt:true},
+  {sem:6, a:"web",  cod:"ISIS-3710", t:"Programación con Tecnologías Web", cr:3, pdf:"", temas:[], alt:true},
+  {sem:6, a:"bdr",  cod:"ISIS-3204", t:"Infraestructura de Comunicaciones", cr:3, pdf:"", temas:[]},
+  // Semestre 7
+  {sem:7, a:"web",  cod:"ISIS-3510", t:"Construcción de Aplicaciones Móviles", cr:3, pdf:"", temas:[]}
+];
+/* OTROS APUNTES (fuera de la carrera)
+   Para agregar uno nuevo copia una línea y cambia los datos.
+   cat: la categoría que se ve en la etiqueta. c: el color (var(--sky), var(--mint), var(--pink), var(--butter), var(--peach), var(--lilac-soft)). */
+const OTROS = [
+  {cat:"Nube", c:"var(--sky)", t:"AWS", d:"Servicios básicos de Amazon Web Services: EC2, S3, IAM y cómo empezar con la capa gratuita.", pdf:"", temas:[]},
+  {cat:"Inteligencia artificial", c:"var(--pink)", t:"Prompting", d:"Cómo escribir buenas instrucciones para modelos de IA, con ejemplos para estudiar y programar.", pdf:"", temas:[]}
+];
+const PROYECTOS = [
+  {t:"Sofiaghost Apuntes", d:"Este sitio: un PDF por materia de la carrera, ordenado por semestre, con buscador.", s:["HTML","CSS","JavaScript"], c:"var(--pink)"},
+  {t:"Calculadora de matrices", d:"Suma, multiplica e invierte matrices mostrando cada paso del proceso.", s:["Python"], c:"var(--butter)"},
+  {t:"Gestor de tareas", d:"Aplicación de consola con arquitectura MVC y persistencia en archivos.", s:["Java","MVC"], c:"var(--mint)"}
+];
+
+let filtro = "todas";
+try{ filtro = localStorage.getItem("sg-area") || "todas"; }catch(e){}
+if(filtro !== "todas" && !AREAS[filtro]) filtro = "todas";
+
+const chips = document.getElementById("chips");
+const sems = document.getElementById("sems");
+const q = document.getElementById("q");
+function esc(s){return String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));}
+
+const listos = MATERIAS_CARRERA.filter(m=>m.pdf).length;
+document.getElementById("progreso").textContent = `${listos} de ${MATERIAS_CARRERA.length}`;
+
+function renderChips(){
+  const opts = [["todas",{n:"Todas",c:"var(--lilac-soft)"}], ...Object.entries(AREAS)];
+  chips.innerHTML = opts.map(([k,v])=>{
+    const n = k==="todas" ? MATERIAS_CARRERA.length : MATERIAS_CARRERA.filter(m=>m.a===k).length;
+    return `<button class="chip" style="--c:${v.c}" data-k="${k}" aria-pressed="${k===filtro}">${esc(v.n)}<span class="n">${n}</span></button>`;
+  }).join("");
+}
+function card(m){
+  const area = AREAS[m.a];
+  const btn = m.pdf
+    ? `<a class="dl" href="${esc(m.pdf)}" target="_blank" rel="noopener">Ver PDF</a>`
+    : `<span class="dl" aria-disabled="true">PDF en camino</span>`;
+  const temas = m.temas.length
+    ? m.temas.map(x=>`<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.t)}</a></li>`).join("")
+    : `<li class="soon">Temas e infografías: próximamente</li>`;
+  return `<article class="card" style="--c:${area.c}"><span class="tape" aria-hidden="true"></span>
+    <div class="top"><span class="tag">${esc(area.n)}</span></div>
+    <h3>${esc(m.t)}</h3>
+    ${m.alt ? `<span class="alt">Se elige una de las dos de este semestre</span>` : ""}
+    <ul class="temas">${temas}</ul>
+    <div class="foot"><span class="info">${esc(m.cod)}</span>${btn}</div></article>`;
+}
+function render(){
+  const term = q.value.trim().toLowerCase();
+  const list = MATERIAS_CARRERA.filter(m => (filtro==="todas"||m.a===filtro) &&
+    (!term || (m.t+" "+m.cod+" "+AREAS[m.a].n+" "+m.temas.map(x=>x.t).join(" ")).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+      .includes(term.normalize("NFD").replace(/[̀-ͯ]/g,""))));
+  if(!list.length){ sems.innerHTML = `<div class="grid"><p class="empty">Nada por aquí… prueba con otra palabra.</p></div>`; return; }
+  const porSem = {};
+  list.forEach(m => (porSem[m.sem] ||= []).push(m));
+  sems.innerHTML = Object.keys(porSem).sort((a,b)=>a-b).map(s=>{
+    const ms = porSem[s];
+    const ok = ms.filter(m=>m.pdf).length;
+    return `<div class="sem"><div class="sem-head"><h3>Semestre ${s}</h3><span class="rule"></span>
+      <span class="cnt">${ok}/${ms.length} PDFs</span></div><div class="grid">${ms.map(card).join("")}</div></div>`;
+  }).join("");
+}
+chips.addEventListener("click", e=>{
+  const b = e.target.closest(".chip"); if(!b) return;
+  filtro = b.dataset.k;
+  try{ localStorage.setItem("sg-area", filtro); }catch(err){}
+  renderChips(); render();
+});
+q.addEventListener("input", render);
+
+document.getElementById("otros-grid").innerHTML = OTROS.map(o=>{
+  const btn = o.pdf
+    ? `<a class="dl" href="${esc(o.pdf)}" target="_blank" rel="noopener">Ver PDF</a>`
+    : `<span class="dl" aria-disabled="true">PDF en camino</span>`;
+  const temas = o.temas.length
+    ? o.temas.map(x=>`<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.t)}</a></li>`).join("")
+    : `<li class="soon">Temas e infografías: próximamente</li>`;
+  return `<article class="card" style="--c:${o.c}"><span class="tape" aria-hidden="true"></span>
+    <div class="top"><span class="tag">${esc(o.cat)}</span></div>
+    <h3>${esc(o.t)}</h3><p>${esc(o.d)}</p><ul class="temas">${temas}</ul>
+    <div class="foot"><span class="info">Extra</span>${btn}</div></article>`;
+}).join("");
+
+document.getElementById("projects").innerHTML = PROYECTOS.map(p=>
+  `<article class="proj" style="--c:${p.c}"><span class="ex">Proyecto de ejemplo</span><h3>${esc(p.t)}</h3><p>${esc(p.d)}</p>
+   <div class="stack">${p.s.map(s=>`<span>${esc(s)}</span>`).join("")}</div></article>`).join("");
+
+renderChips(); render();
+</script>
+</body>
+</html>
